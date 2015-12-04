@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">Gymr</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="facebook_app_id">1702197920025121</string>
+    <string name="title_activity_gymr_activity">GymrACTIVITY</string>
+
+    <string name="title_section1">Gymr</string>
+    <string name="title_section2">Profile</string>
+    <string name="title_section3">Settings</string>
+    <string name="title_section4">Matches</string>
+    <string name="title_section5">Gym Day Preferences</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_activity_gymr">GymrActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_chatroom">ChatroomActivity</string>
+    <string name="title_activity_config_profile">ConfigProfileActivity</string>
+
+    <string name="login_successful">Login Successful! Welcome back!</string>
+    <string name="login_error">Login Error.</string>
+    <string name="login_new_user">Welcome New User! I will bring you to configure your profile.</string>
+
+    <string name="config_name_string">NAME</string>
+    <string name="config_gender_pref_string">SAME GENDER TO WORKOUT WITH?</string>
+
+    <string name="config_height_string">HEIGHT (CM)</string>
+    <string name="config_weight_string">WEIGHT (LBS)</string>
+
+    <string name="config_bench_string">BENCH</string>
+    <string name="config_squat_string">SQUAT</string>
+    <string name="config_deadlift_string">DEADLIFT</string>
+
+    <string name="config_confirm_string">Confirm</string>
+    <string name="config_cancel_string">Cancel</string>
+
+    <string name="matching_accept_string">Accept</string>
+    <string name="matching_decline_string">Decline</string>
+
+    <string name="config_pounds_string">lbs</string>
+
+    <string name="matching_confirm_string">Confirm</string>
+
+    <string name="matching_height_string">%s cm</string>
+    <string name="matching_weight_string">%s kg</string>
+
+    <string name="config_error_string">There is an error with your user configuration, you might have missed some info.</string>
+    <string name="title_activity_matching_criteria">MatchingCriteriaActivity</string>
+
+    <string-array name="body_parts_array">
+        <item>Chest</item>
+        <item>Leg</item>
+        <item>Back</item>
+        <item>Tongue</item>
+    </string-array>
+
+</resources>
