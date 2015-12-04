@@ -2,7 +2,6 @@ package com.forrest.gymr.gymrfragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -125,6 +124,7 @@ public class MatchingFragment extends Fragment {
         return v;
     }
 
+    // Triggered when a user result suggestion is accepted
     private void acceptUser() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Match");
         query.whereEqualTo("userTo", ParseUser.getCurrentUser());
@@ -149,9 +149,10 @@ public class MatchingFragment extends Fragment {
             reloadMatches();
             return;
         }
-        matchUsers();
+        matchUsersUpdateUI();
     }
 
+    // Triggered when a user result suggestion is rejected
     private void rejectUser() {
         addCurrentPairedUser();
         updateUIAndDequeue();
@@ -159,6 +160,8 @@ public class MatchingFragment extends Fragment {
         reloadMatches();
     }
 
+    // Adds the current inspected user into "Paired User" List, such that it is saved into the server that this user will
+    // Not appear at the results of the app again for the rest of the day
     private void addCurrentPairedUser() {
         if (curUser != null) {
             ParseUser.getCurrentUser().getList("pairedToday").add(curUser.getObjectId());
@@ -166,6 +169,7 @@ public class MatchingFragment extends Fragment {
         }
     }
 
+    // Saves the current user object
     private void saveCurrentUser() {
         try {
             ParseUser.getCurrentUser().save();
@@ -201,7 +205,8 @@ public class MatchingFragment extends Fragment {
         mListener = null;
     }
 
-    private void matchUsers() {
+    // Updates the UI when two users are matched
+    private void matchUsersUpdateUI() {
 
     }
 
