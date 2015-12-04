@@ -3,6 +3,7 @@ package com.forrest.gymr;
 import android.test.AndroidTestCase;
 
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -12,12 +13,18 @@ import java.util.List;
  * Created by Forrest on 3/12/15.
  */
 public class MatchingTest extends AndroidTestCase {
-    private ParseUser user;
+    private ParseObject user;
+    private GymrApplication application;
+
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        user = ParseUser.getCurrentUser();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+        query.whereEqualTo("objectId", "qQMIbNpwn7");
+        Thread.sleep(50);
+        List<ParseObject> users = query.find();
+        user = ParseUser.getCurrentUser(); //users.get(0);
     }
 
     // Test for the correct Height
@@ -52,7 +59,7 @@ public class MatchingTest extends AndroidTestCase {
             return;
         }
         List<ParseUser> parseUser = queryResults();
-        assertNull(parseUser);
+        assertTrue(parseUser.isEmpty());
         user.put("oppositeSex", true);
         try {
             user.save();
@@ -70,6 +77,13 @@ public class MatchingTest extends AndroidTestCase {
             e.printStackTrace();
         }
         List<ParseUser> parseUsers = queryResults();
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         assertNotNull(parseUsers);
         assertEquals(1, parseUsers.size());
         assertEquals("Jackie White", parseUsers.get(0).getString("name"));
@@ -94,7 +108,7 @@ public class MatchingTest extends AndroidTestCase {
             e.printStackTrace();
         }
         List<ParseUser> parseUsers = queryResults();
-        assertNull(parseUsers);
+        assertTrue(parseUsers.isEmpty());
         user.put("bodyPart", "Chest");
         try {
             user.save();
@@ -118,9 +132,7 @@ public class MatchingTest extends AndroidTestCase {
         } catch (ParseException e) {
             return null;
         }
-
         return parseUsers;
-
     }
 
     @Override

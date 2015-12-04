@@ -115,43 +115,69 @@ public class MatchingFragment extends Fragment {
         matchingWeight = (TextView) v.findViewById(R.id.matching_weight);
         acceptButton = (Button) v.findViewById(R.id.matching_confirm_btn);
         rejectButton = (Button) v.findViewById(R.id.matching_cancel_btn);
+        viewFbProfileButton = (Button) v.findViewById(R.id.show_fb_profile);
 
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                acceptUser();
             }
         });
+        rejectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rejectUser();
+            }
+        });
+
+        viewFbProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(getOpenFacebookIntent(MatchingFragment.this.getActivity(), ParseUser.getCurrentUser().getLong("facebookId")));
+            }
+        });
+
+
 
         return v;
     }
 
     // Triggered when a user result suggestion is accepted
     private void acceptUser() {
+        if (curUser == null) {
+            return;
+        }
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Match");
         query.whereEqualTo("userTo", ParseUser.getCurrentUser());
         query.whereEqualTo("userFrom", curUser);
         try {
             List<ParseObject> results = query.find();
-            results.get(0).put("matched", true);
-            results.get(0).save();
-        } catch (ParseException e) {
-            ParseObject match = new ParseObject("Match");
-            match.put("userFrom", ParseUser.getCurrentUser());
-            match.put("userTo", curUser);
-            match.put("matched", false);
-            try {
-                match.save();
-            } catch (ParseException e1) {
-                e1.printStackTrace();
+            if (results.isEmpty()) {
+                ParseObject match = new ParseObject("Match");
+                match.put("userFrom", ParseUser.getCurrentUser());
+                match.put("userTo", curUser);
+                match.put("matched", false);
+                try {
+                    match.save();
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
+                addCurrentPairedUser();
+                updateUIAndDequeue();
+                saveCurrentUser();
+                if (pairedUsers.isEmpty()) {
+                    reloadMatches();
+                }
+            } else {
+                results.get(0).put("matched", true);
+                results.get(0).save();
+                matchUsersUpdateUI();
             }
-            updateUIAndDequeue();
-            addCurrentPairedUser();
-            saveCurrentUser();
-            reloadMatches();
-            return;
-        }
-        matchUsersUpdateUI();
+
+        } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
     }
 
     // Triggered when a user result suggestion is rejected
@@ -159,7 +185,9 @@ public class MatchingFragment extends Fragment {
         addCurrentPairedUser();
         updateUIAndDequeue();
         saveCurrentUser();
-        reloadMatches();
+        if (pairedUsers.isEmpty()) {
+            reloadMatches();
+        }
     }
 
     // Adds the current inspected user into "Paired User" List, such that it is saved into the server that this user will
@@ -220,7 +248,7 @@ public class MatchingFragment extends Fragment {
             context.getPackageManager()
                     .getPackageInfo("com.facebook.katana", 0); //Checks if FB is even installed.
             return new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("fb://profile/" + id)); //Trys to make intent with FB's URI
+                    Uri.parse("fb://page/" + id)); //Trys to make intent with FB's URI
         } catch (Exception e) {
             return new Intent(Intent.ACTION_VIEW,
                     Uri.parse("https://www.facebook.com/" + id)); //catches and opens a url to the desired page
@@ -255,13 +283,17 @@ public class MatchingFragment extends Fragment {
             matchingSquat.setText(Integer.toString(curUser.getInt("squatWeight")));
             matchingBench.setText(Integer.toString(curUser.getInt("benchWeight")));
             matchingDeadlift.setText(Integer.toString(curUser.getInt("deadliftWeight")));
+            acceptButton.setVisibility(View.VISIBLE);
+            rejectButton.setVisibility(View.VISIBLE);
         } else {
-            matchingName.setText("");
+            matchingName.setText("(No User Now)");
             matchingHeight.setText("");
             matchingWeight.setText("");
             matchingSquat.setText("");
             matchingBench.setText("");
             matchingDeadlift.setText("");
+            acceptButton.setVisibility(View.GONE);
+            rejectButton.setVisibility(View.GONE);
         }
     }
 
@@ -271,6 +303,7 @@ public class MatchingFragment extends Fragment {
      */
     private void reloadMatches() {
         pairedUsers.clear();
+        viewFbProfileButton.setVisibility(View.GONE);
         ParseUser currentUser = ParseUser.getCurrentUser();
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("bodyPart", currentUser.get("bodyPart"));

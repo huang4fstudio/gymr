@@ -13,6 +13,7 @@ import com.forrest.gymr.gymrfragments.ChatFragment;
 import com.forrest.gymr.gymrfragments.NavigationDrawerFragment;
 import com.forrest.gymr.gymrfragments.ProfileFragment;
 import com.forrest.gymr.gymrfragments.SettingsFragment;
+import com.forrest.gymr.gymrfragments.MatchingFragment;
 
 
 public class GymrActivity extends Activity

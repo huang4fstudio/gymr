@@ -3,9 +3,9 @@ package com.forrest.gymr;
 import android.app.Application;
 
 import com.facebook.FacebookSdk;
+import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
-import com.parse.Parse;
 import com.parse.ParseUser;
 
 /**
@@ -18,22 +18,23 @@ public class GymrApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         FacebookSdk.sdkInitialize(getApplicationContext());
-        // Enable Local Datastore.
+        // Enable Local Datastory
         Parse.enableLocalDatastore(this);
 
         // Add your initialization code here
         Parse.initialize(this, "qhnKfVz7X9X6OEBVibgscZwDxMdNSQRMK8tP9Lmw", "PZ1lPqxn3qF3M3T6yNxvCiszcmasjhX5l4ypTkkJ");
 
-
-        ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
         // Optionally enable public read access.
         // defaultACL.setPublicReadAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);
 
         ParseFacebookUtils.initialize(getApplicationContext());
+    }
+
+    public ParseUser getUser() {
+        return ParseUser.getCurrentUser();
     }
 
 }
