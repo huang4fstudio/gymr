@@ -192,6 +192,27 @@
             android:layout_marginLeft="30dp"
             android:text="@string/config_cancel_string"
             android:id="@+id/matching_cancel_btn"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+
+            android:text="@string/matching_show_fb_profile"
+            android:textColor="@color/com_facebook_share_button_text_color"
+            android:textSize="@dimen/com_facebook_share_button_text_size"
+            android:textStyle="bold"
+            android:visibility="gone"
+
+            android:background="@drawable/com_facebook_button_background"
+            android:drawableLeft="@drawable/com_facebook_button_icon"
+            android:drawablePadding="@dimen/com_facebook_share_button_compound_drawable_padding"
+            android:paddingLeft="@dimen/com_facebook_share_button_padding_left"
+            android:paddingTop="@dimen/com_facebook_share_button_padding_top"
+            android:paddingRight="@dimen/com_facebook_share_button_padding_right"
+            android:paddingBottom="@dimen/com_facebook_share_button_padding_bottom"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/show_fb_profile"/>
 
     </LinearLayout>
     </LinearLayout>

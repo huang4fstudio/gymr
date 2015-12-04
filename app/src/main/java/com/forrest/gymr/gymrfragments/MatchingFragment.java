@@ -2,6 +2,7 @@ package com.forrest.gymr.gymrfragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ public class MatchingFragment extends Fragment {
 
     private Button acceptButton;
     private Button rejectButton;
+    private Button viewFbProfileButton;
 
     private ParseUser curUser;
 
@@ -207,7 +209,22 @@ public class MatchingFragment extends Fragment {
 
     // Updates the UI when two users are matched
     private void matchUsersUpdateUI() {
+        acceptButton.setVisibility(View.GONE);
+        rejectButton.setVisibility(View.GONE);
+        viewFbProfileButton.setVisibility(View.VISIBLE);
+    }
 
+    // Creates a facebook "Intent" that launches the facebook app
+    private static Intent getOpenFacebookIntent(Context context, long id) {
+        try {
+            context.getPackageManager()
+                    .getPackageInfo("com.facebook.katana", 0); //Checks if FB is even installed.
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("fb://profile/" + id)); //Trys to make intent with FB's URI
+        } catch (Exception e) {
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.facebook.com/" + id)); //catches and opens a url to the desired page
+        }
     }
 
 
